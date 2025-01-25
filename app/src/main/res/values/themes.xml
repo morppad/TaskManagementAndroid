@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TaskManagment" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Полупрозрачный статус-бар -->
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <!-- Отключаем полупрозрачность навигационной панели -->
+        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- Устанавливаем, что содержимое будет корректно вписываться в окна системы -->
+        <item name="android:fitsSystemWindows">true</item>
+
+        <!-- Устанавливаем полноэкранный режим -->
+        <item name="android:windowFullscreen">true</item>
+
+        <!-- Цвет статус-бара -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <!-- Цвет навигационной панели -->
+        <item name="android:navigationBarColor">#101010</item>
+
+        <!-- Цвет фона приложения -->
+        <item name="android:colorBackground">#000000</item>
+
+        <!-- Цвет элементов, таких как кнопки и текст -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#AAAAAA</item>
+        <item name="colorSecondary">#666666</item>
+    </style>
+</resources>
