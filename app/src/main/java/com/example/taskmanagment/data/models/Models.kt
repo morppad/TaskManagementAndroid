@@ -15,15 +15,15 @@ data class User(
 
 @Serializable
 data class Task(
-    val id: Int,
+    val id: Int? = null,
     val title: String,
     val description: String?,
     val status: String = "pending",
     val priority: String = "normal",
-    @SerialName("due_date")val dueDate: String?, // Nullable
-    @SerialName("user_id")val user_id: Int, // Nullable
-    @SerialName("created_at")val createdAt: String?, // Nullable
-    @SerialName("updated_at")val updatedAt: String? // Nullable
+    @SerialName("due_date") val dueDate: String?, // Nullable
+    @SerialName("user_id") val user_id: Int, // Nullable
+    @SerialName("created_at") val createdAt: String?, // Nullable
+    @SerialName("updated_at") val updatedAt: String? // Nullable
 )
 
 @Serializable

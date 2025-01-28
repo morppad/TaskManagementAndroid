@@ -55,7 +55,7 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0-alpha01")
     implementation("androidx.compose.material:material:1.7.6")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.1-alpha")
-    implementation ("com.google.accompanist:accompanist-pager:0.31.1-alpha")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

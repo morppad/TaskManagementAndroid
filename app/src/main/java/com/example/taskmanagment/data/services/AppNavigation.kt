@@ -1,5 +1,6 @@
 package com.example.taskmanagment.data.services
 
+import ManagerScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +26,6 @@ fun AppNavigation() {
     val navController = rememberNavController()
     var currentUserId by remember { mutableStateOf<String?>(null) } // ID текущего пользователя
     var currentUserRole by remember { mutableStateOf<String?>(null) } // Роль текущего пользователя
-
     NavHost(navController = navController, startDestination = "login") {
         // Экран входа
         composable("login") {
@@ -77,7 +77,7 @@ fun AppNavigation() {
         composable("tasks?user_id={user_id}") { backStackEntry ->
             val user_id = backStackEntry.arguments?.getString("user_id")
             if (user_id != null) {
-                TasksListScreen(user_id = user_id)
+                TasksListScreen(user_id = user_id, navController)
             } else {
                 Text("Error: User ID is missing")
             }
@@ -95,17 +95,57 @@ fun AppNavigation() {
 
         // Экран управления задачами
         composable("manageTasks") {
-            ManageTasksScreen(navController)
+            ManageTasksScreen(user_id = currentUserId!!, navController)
         }
 
-        // Экран с деталями задачи и комментариями администратора
-        composable("adminTaskDetails?task_id={task_id}") { backStackEntry ->
+        composable("adminTaskDetails?task_id={task_id}&user_id={user_id}") { backStackEntry ->
             val task_id = backStackEntry.arguments?.getString("task_id")?.toIntOrNull()
-            val admin_id = currentUserId?.toIntOrNull() // Берем ID текущего пользователя
-            if (task_id != null && admin_id != null) {
-                AdminCommentsScreen(task_id = task_id, admin_id = admin_id, navController = navController)
+            val coroutineScope = rememberCoroutineScope()
+            val user_id = backStackEntry.arguments?.getString("user_id")?.toIntOrNull()
+            var users by remember { mutableStateOf<List<User>>(emptyList()) }
+
+            // Загрузка списка пользователей
+            LaunchedEffect(Unit) {
+                coroutineScope.launch {
+                    users = fetchUsers() // Загрузка списка пользователей
+                }
+            }
+
+            if (task_id != null && user_id != null) {
+                AdminTaskDetailsScreen(
+                    task_id = task_id,
+                    user_id = user_id,
+                    navController = navController,
+                    users = users
+                )
             } else {
-                Text("Error: Task ID or Admin ID is missing")
+                Text("Error: Task ID is missing")
+            }
+        }
+
+        composable("userTaskDetails?task_id={task_id}&user_id={user_id}") { backStackEntry ->
+            val task_id = backStackEntry.arguments?.getString("task_id")?.toIntOrNull()
+            val user_id = backStackEntry.arguments?.getString("user_id")?.toIntOrNull()
+
+            val coroutineScope = rememberCoroutineScope()
+            var users by remember { mutableStateOf<List<User>>(emptyList()) }
+
+            // Загрузка списка пользователей
+            LaunchedEffect(Unit) {
+                coroutineScope.launch {
+                    users = fetchUsers() // Функция для загрузки списка пользователей
+                }
+            }
+
+            if (task_id != null && user_id != null) {
+                UserTaskDetailsScreen(
+                    task_id = task_id,
+                    user_id = user_id,
+                    navController = navController,
+                    users = users
+                )
+            } else {
+                Text("Error: Task ID or User ID is missing")
             }
         }
 

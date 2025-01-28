@@ -9,6 +9,11 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.LineHeightStyle
 import com.example.taskmanagment.data.models.Task
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
@@ -70,7 +75,7 @@ suspend fun updateTask(task: Task): Boolean {
         val jsonTask = Json.encodeToJsonElement(task) // Преобразуем объект Task в JSON
 
         supabaseClient.from("tasks").update(jsonTask) {
-            filter { eq("id", task.id) } // Указываем условие обновления
+            filter { eq("id", task.id!!) } // Указываем условие обновления
 
         }
         Log.d("TaskService", "Task updated successfully: $task")
@@ -93,3 +98,4 @@ suspend fun deleteTask(task_id: Int): Boolean {
         false
     }
 }
+

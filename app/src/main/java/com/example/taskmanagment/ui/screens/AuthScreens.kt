@@ -16,7 +16,6 @@ import com.example.taskmanagment.data.services.loginUser
 import com.example.taskmanagment.data.services.registerUser
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun LoginScreen(
     onLoginSuccess: (String, String) -> Unit,
@@ -30,7 +29,8 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .imePadding(), // Избегаем перекрытия клавиатурой
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -92,13 +92,11 @@ fun LoginScreen(
         }
     }
 }
-
-
 @Composable
 fun RegisterScreen(onRegisterSuccess: () -> Unit, onSwitchToLogin: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") } // Теперь переменная username изменяемая
+    var username by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -106,29 +104,32 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onSwitchToLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .imePadding(), // Избегаем перекрытия клавиатурой
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Register", modifier = Modifier.padding(bottom = 16.dp), style = MaterialTheme.typography.headlineMedium)
+        Text("Register", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
             label = { Text("Username") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             label = { Text("Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = password,
@@ -146,7 +147,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onSwitchToLogin: () -> Unit) {
                         registerUser(
                             email = email,
                             password = password,
-                            username = username, // Передаем логин
+                            username = username,
                             onSuccess = {
                                 Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
                                 onRegisterSuccess()
@@ -167,7 +168,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onSwitchToLogin: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = onSwitchToLogin, modifier = Modifier.fillMaxWidth()) {
+        TextButton(onClick = onSwitchToLogin) {
             Text("Back to Login")
         }
 
@@ -177,4 +178,3 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, onSwitchToLogin: () -> Unit) {
         }
     }
 }
-
