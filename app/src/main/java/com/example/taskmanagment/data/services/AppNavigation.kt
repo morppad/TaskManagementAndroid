@@ -1,6 +1,6 @@
 package com.example.taskmanagment.data.services
 
-import ManagerScreen
+import com.example.taskmanagment.ui.screens.ManagerScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
